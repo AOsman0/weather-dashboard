@@ -18,11 +18,28 @@ const readFromLocalStorage = (key, defaultValue) => {
 const renderRecentSearches = () => {
   //get recent searches from LS
   // if recent searches is not available what to return is an empty array
-  const recentSearches = readFromLocalStorage("recentSearches", []);
-  console.log(recentSearches);
+  const recentSearches = ["London", "Leeds", "Birmingham"];
 
   if (recentSearches.length) {
+    //create callback
+    //to accept each e.g. city
+    const createRecentCity = (city) => {
+      return ` <li
+        class="list-group-item border-top-0 border-end-0 border-start-0"
+        data-city="${city}"
+      >
+        ${city}
+      </li>`;
+    };
+    //map through recent searches
+    // join it so you can convert it to a string
+    const recentCities = recentSearches.map(createRecentCity).join("");
     // if render recent search results
+    const ul = `<ul class="list-group rounded-0">
+   ${recentCities}
+  </ul>`;
+    //append to parent
+    recentSearchesContainer.append(ul);
   } else {
     // else empty show alert
     // create component
@@ -39,8 +56,10 @@ const handleRecentSearchClick = (event) => {
   //restrict clicks from only li
   // prep function to accept event object
   const target = $(event.target);
-  if (target.is("LI")) {
-    console.log("search");
+  if (target.is("li")) {
+    //get data city attribute
+    const cityName = target.attr("data-city");
+    console.log(cityName);
   }
 };
 
