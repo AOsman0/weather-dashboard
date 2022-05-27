@@ -48,7 +48,6 @@ body {
   color: var(--fern-green);
 }
 
-.search-form-container,
 .col-sm-12 {
   background-color: aliceblue;
 }
@@ -56,4 +55,8 @@ body {
 .my-city,
 .my-date {
   color: var(--laurel-green);
+}
+
+.card-body {
+  background-color: rgb(236, 236, 236);
 }
