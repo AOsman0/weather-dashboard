@@ -34,3 +34,12 @@ body {
 .navbar-light .navbar-nav .nav-link {
   color: var(--timberwolf);
 }
+
+.jumbotron {
+  padding: 2rem 1rem;
+  background-color: #e9ecef;
+}
+
+.btn-success {
+  font-size: 1.2rem;
+}
