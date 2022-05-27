@@ -1,5 +1,6 @@
-//target parent
+//targetted globally
 const recentSearchesContainer = $("#recent-searches-container");
+const searchForm = $("#search-form");
 
 const readFromLocalStorage = (key, defaultValue) => {
   // get from LS using key name
@@ -13,6 +14,14 @@ const readFromLocalStorage = (key, defaultValue) => {
   } else {
     return defaultValue;
   }
+};
+
+const writeToLocalStorage = (key, value) => {
+  // convert value to string
+  const stringifiedValue = JSON.stringify(value);
+
+  // set stringified value to LS for key name
+  localStorage.setItem(key, stringifiedValue);
 };
 
 const renderRecentSearches = () => {
@@ -63,12 +72,34 @@ const handleRecentSearchClick = (event) => {
   }
 };
 
+const handleFormSubmit = (event) => {
+  event.preventDefault();
+
+  //get form input value
+  const cityName = $("#search-input").val();
+
+  //validate
+  if (cityName) {
+    //get recent searches from LS
+    const recentSearches = readFromLocalStorage("recentSearches", []);
+    //push city name to array
+    recentSearches.push(cityName);
+    //write recent searches to LS
+    writeToLocalStorage("recentSearches", recentSearches);
+    //remove previous items
+    recentSearchesContainer.children().last().remove();
+    //re render recent cities
+    renderRecentSearches();
+  }
+};
+
 const onReady = () => {
   console.log("ready");
   renderRecentSearches();
 };
 
 recentSearchesContainer.click(handleRecentSearchClick);
+searchForm.submit(handleFormSubmit);
 $(document).ready(onReady);
 
 // we need to render search history on load
