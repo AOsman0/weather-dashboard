@@ -43,3 +43,12 @@ body {
 .btn-success {
   font-size: 1.2rem;
 }
+
+.mt-3 {
+  color: var(--fern-green);
+}
+
+.search-form-container,
+.col-sm-12 {
+  background-color: aliceblue;
+}
