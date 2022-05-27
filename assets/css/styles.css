@@ -26,3 +26,11 @@ body {
   font-size: 2rem;
   text-align: center;
 }
+
+.navbar-light .navbar-nav .nav-link.active,
+.navbar-light .navbar-nav .show > .nav-link {
+  color: var(--timberwolf);
+}
+.navbar-light .navbar-nav .nav-link {
+  color: var(--timberwolf);
+}
