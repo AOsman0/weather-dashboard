@@ -18,7 +18,7 @@ const readFromLocalStorage = (key, defaultValue) => {
 const renderRecentSearches = () => {
   //get recent searches from LS
   // if recent searches is not available what to return is an empty array
-  const recentSearches = ["London", "Leeds", "Birmingham"];
+  const recentSearches = readFromLocalStorage("recentSearches", []);
 
   if (recentSearches.length) {
     //create callback
