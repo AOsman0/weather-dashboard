@@ -54,6 +54,19 @@ const fetchData = async (url, options = {}) => {
   }
 };
 
+const getUviClassName = (uvi) => {
+  if (uvi >= 0 && uvi <= 2) {
+    return "bg-success";
+  }
+
+  if (uvi > 2 && uvi <= 8) {
+    return "bg-warning";
+  }
+  if (uvi > 8) {
+    return "bg-danger";
+  }
+};
+
 const renderCurrentData = (data) => {
   const currentWeatherCard = `<div class="p-3">
     <div class="text-center">
@@ -101,9 +114,9 @@ const renderCurrentData = (data) => {
         UV Index
       </div>
       <div class="col-sm-12 col-md-8 p-2 border">
-        <span class="bg-success text-white px-3 rounded-2">${
+        <span class="bg-success text-white px-3 rounded-2 ${getUviClassName(
           data.weatherData.current.uvi
-        }</span>
+        )}">${data.weatherData.current.uvi}</span>
       </div>
     </div>
   </div>
@@ -111,231 +124,65 @@ const renderCurrentData = (data) => {
   weatherInfoContainer.append(currentWeatherCard);
 };
 
-const renderForecastData = () => {
-  const forecastWeatherCards = ` <div>
+const renderForecastData = (data) => {
+  const createForecastCard = (each) => {
+    const forecast = `<div class="card m-2" style="width: 16rem">
+          <div class="d-flex justify-content-center">
+            <img
+              src="http://openweathermap.org/img/w/${each.weather[0].icon}.png"
+              class="shadow-sm p-3 mt-3 bg-body rounded border card-img-top weather-icon"
+              alt="weather icon"
+            />
+          </div>
+          <div class="card-body">
+            <h5 class="card-title text-center">${moment
+              .unix(each.dt)
+              .format("ddd, Do MMM")}</h5>
+            <div class="mt-4 text-center">
+              <div class="row g-0">
+                <div class="col-12 p-2 border bg-light fw-bold">
+                  Temperature
+                </div>
+                <div class="col-12 p-2 border">${each.temp.day}&deg; C</div>
+              </div>
+              <div class="row g-0">
+                <div class="col-12 p-2 border bg-light fw-bold">
+                  Humidity
+                </div>
+                <div class="col-12 p-2 border">${each.humidity}&percnt;</div>
+              </div>
+              <div class="row g-0">
+                <div class="col-12 p-2 border bg-light fw-bold">
+                  Wind Speed
+                </div>
+                <div class="col-12 p-2 border">${each.wind_speed}MPH</div>
+              </div>
+              <div class="row g-0">
+                <div class="col-12 p-2 border bg-light fw-bold">
+                  UV Index
+                </div>
+                <div class="col-12 p-2 border">
+                  <span class="bg-success text-white px-3 rounded-2 ${getUviClassName(
+                    each.uvi
+                  )}"
+                    >${each.uvi}</span
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>`;
+    return forecast;
+  };
+  const forecastCards = data.weatherData.daily
+    .slice(1, 6)
+    .map(createForecastCard)
+    .join("");
+  const forecastWeatherCards = `<div>
   <h2 class="mt-3 text-center">5-Day Forecast</h2>
   <hr />
   <div class="d-flex flex-row justify-content-center flex-wrap">
-    <!-- card 1 -->
-    <div class="card m-2" style="width: 16rem">
-      <div class="d-flex justify-content-center">
-        <img
-          src="http://openweathermap.org/img/w/04d.png"
-          class="shadow-sm p-3 mt-3 bg-body rounded border card-img-top weather-icon"
-          alt="weather icon"
-        />
-      </div>
-      <div class="card-body">
-        <h5 class="card-title text-center">Tue, 10th May</h5>
-        <div class="mt-4 text-center">
-          <div class="row g-0">
-            <div class="col-12 p-2 border bg-light fw-bold">
-              Temperature
-            </div>
-            <div class="col-12 p-2 border">16&deg; C</div>
-          </div>
-          <div class="row g-0">
-            <div class="col-12 p-2 border bg-light fw-bold">
-              Humidity
-            </div>
-            <div class="col-12 p-2 border">20&percnt;</div>
-          </div>
-          <div class="row g-0">
-            <div class="col-12 p-2 border bg-light fw-bold">
-              Wind Speed
-            </div>
-            <div class="col-12 p-2 border">10 MPH</div>
-          </div>
-          <div class="row g-0">
-            <div class="col-12 p-2 border bg-light fw-bold">
-              UV Index
-            </div>
-            <div class="col-12 p-2 border">
-              <span class="bg-success text-white px-3 rounded-2"
-                >1.5</span
-              >
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- card 1 -->
-    <div class="card m-2" style="width: 16rem">
-      <div class="d-flex justify-content-center">
-        <img
-          src="http://openweathermap.org/img/w/04d.png"
-          class="shadow-sm p-3 mt-3 bg-body rounded border card-img-top weather-icon"
-          alt="weather icon"
-        />
-      </div>
-      <div class="card-body">
-        <h5 class="card-title text-center">Tue, 10th May</h5>
-        <div class="mt-4 text-center">
-          <div class="row g-0">
-            <div class="col-12 p-2 border bg-light fw-bold">
-              Temperature
-            </div>
-            <div class="col-12 p-2 border">16&deg; C</div>
-          </div>
-          <div class="row g-0">
-            <div class="col-12 p-2 border bg-light fw-bold">
-              Humidity
-            </div>
-            <div class="col-12 p-2 border">20&percnt;</div>
-          </div>
-          <div class="row g-0">
-            <div class="col-12 p-2 border bg-light fw-bold">
-              Wind Speed
-            </div>
-            <div class="col-12 p-2 border">10 MPH</div>
-          </div>
-          <div class="row g-0">
-            <div class="col-12 p-2 border bg-light fw-bold">
-              UV Index
-            </div>
-            <div class="col-12 p-2 border">
-              <span class="bg-success text-white px-3 rounded-2"
-                >1.5</span
-              >
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- card 1 -->
-    <div class="card m-2" style="width: 16rem">
-      <div class="d-flex justify-content-center">
-        <img
-          src="http://openweathermap.org/img/w/04d.png"
-          class="shadow-sm p-3 mt-3 bg-body rounded border card-img-top weather-icon"
-          alt="weather icon"
-        />
-      </div>
-      <div class="card-body">
-        <h5 class="card-title text-center">Tue, 10th May</h5>
-        <div class="mt-4 text-center">
-          <div class="row g-0">
-            <div class="col-12 p-2 border bg-light fw-bold">
-              Temperature
-            </div>
-            <div class="col-12 p-2 border">16&deg; C</div>
-          </div>
-          <div class="row g-0">
-            <div class="col-12 p-2 border bg-light fw-bold">
-              Humidity
-            </div>
-            <div class="col-12 p-2 border">20&percnt;</div>
-          </div>
-          <div class="row g-0">
-            <div class="col-12 p-2 border bg-light fw-bold">
-              Wind Speed
-            </div>
-            <div class="col-12 p-2 border">10 MPH</div>
-          </div>
-          <div class="row g-0">
-            <div class="col-12 p-2 border bg-light fw-bold">
-              UV Index
-            </div>
-            <div class="col-12 p-2 border">
-              <span class="bg-success text-white px-3 rounded-2"
-                >1.5</span
-              >
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- card 1 -->
-    <div class="card m-2" style="width: 16rem">
-      <div class="d-flex justify-content-center">
-        <img
-          src="http://openweathermap.org/img/w/04d.png"
-          class="shadow-sm p-3 mt-3 bg-body rounded border card-img-top weather-icon"
-          alt="weather icon"
-        />
-      </div>
-      <div class="card-body">
-        <h5 class="card-title text-center">Tue, 10th May</h5>
-        <div class="mt-4 text-center">
-          <div class="row g-0">
-            <div class="col-12 p-2 border bg-light fw-bold">
-              Temperature
-            </div>
-            <div class="col-12 p-2 border">16&deg; C</div>
-          </div>
-          <div class="row g-0">
-            <div class="col-12 p-2 border bg-light fw-bold">
-              Humidity
-            </div>
-            <div class="col-12 p-2 border">20&percnt;</div>
-          </div>
-          <div class="row g-0">
-            <div class="col-12 p-2 border bg-light fw-bold">
-              Wind Speed
-            </div>
-            <div class="col-12 p-2 border">10 MPH</div>
-          </div>
-          <div class="row g-0">
-            <div class="col-12 p-2 border bg-light fw-bold">
-              UV Index
-            </div>
-            <div class="col-12 p-2 border">
-              <span class="bg-success text-white px-3 rounded-2"
-                >1.5</span
-              >
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- card 1 -->
-    <div class="card m-2" style="width: 16rem">
-      <div class="d-flex justify-content-center">
-        <img
-          src="http://openweathermap.org/img/w/04d.png"
-          class="shadow-sm p-3 mt-3 bg-body rounded border card-img-top weather-icon"
-          alt="weather icon"
-        />
-      </div>
-      <div class="card-body">
-        <h5 class="card-title text-center">Tue, 10th May</h5>
-        <div class="mt-4 text-center">
-          <div class="row g-0">
-            <div class="col-12 p-2 border bg-light fw-bold">
-              Temperature
-            </div>
-            <div class="col-12 p-2 border">16&deg; C</div>
-          </div>
-          <div class="row g-0">
-            <div class="col-12 p-2 border bg-light fw-bold">
-              Humidity
-            </div>
-            <div class="col-12 p-2 border">20&percnt;</div>
-          </div>
-          <div class="row g-0">
-            <div class="col-12 p-2 border bg-light fw-bold">
-              Wind Speed
-            </div>
-            <div class="col-12 p-2 border">10 MPH</div>
-          </div>
-          <div class="row g-0">
-            <div class="col-12 p-2 border bg-light fw-bold">
-              UV Index
-            </div>
-            <div class="col-12 p-2 border">
-              <span class="bg-success text-white px-3 rounded-2"
-                >1.5</span
-              >
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+ ${forecastCards}
 </div>
 </div>`;
   weatherInfoContainer.append(forecastWeatherCards);
@@ -375,6 +222,38 @@ const renderRecentSearches = () => {
 </div>`;
     //append to parent
     recentSearchesContainer.append(alert);
+  }
+};
+
+const renderErrorAlert = () => {
+  // empty container
+  weatherInfoContainer.empty();
+
+  const alert = `<div class="alert alert-danger" role="alert">
+    Something went wrong!! Please try again.
+  </div>`;
+
+  weatherInfoContainer.append(alert);
+};
+
+const renderWeatherInfo = async (cityName) => {
+  try {
+    // fetch weather data
+    const weatherData = await fetchWeatherData(cityName);
+
+    // empty container
+    weatherInfoContainer.empty();
+
+    // render current data
+    renderCurrentData(weatherData);
+
+    // render forecast data
+    renderForecastData(weatherData);
+
+    return true;
+  } catch (error) {
+    renderErrorAlert();
+    return false;
   }
 };
 
