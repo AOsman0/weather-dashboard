@@ -8,7 +8,7 @@ Web API's , Objects , Appending Elements and Template Strings.
 
 # Deployed Link
 
-[here](/https://aosman0.github.io/weather-dashboard/)
+[here](https://aosman0.github.io/weather-dashboard/)
 
 # Screenshots
 
