@@ -57,7 +57,7 @@ const fetchData = async (url, options = {}) => {
 const renderCurrentData = (data) => {
   const currentWeatherCard = `<div class="p-3">
     <div class="text-center">
-      <h2 class="my-city">${data}</h2>
+      <h2 class="my-city">${data.cityName}</h2>
       <h3 class="my-date">Friday 27th May 2022</h3>
       <img
         src="./assets/images/weather.icon.png"
@@ -73,26 +73,26 @@ const renderCurrentData = (data) => {
       <div class="col-sm-12 col-md-4 p-2 border bg-light fw-bold">
         Temperature
       </div>
-      <div class="col-sm-12 col-md-8 p-2 border">20&deg; C</div>
+      <div class="col-sm-12 col-md-8 p-2 border">${data.weatherData.current.temp}&deg; C</div>
     </div>
     <div class="row g-0">
       <div class="col-sm-12 col-md-4 p-2 border bg-light fw-bold">
         Humidity
       </div>
-      <div class="col-sm-12 col-md-8 p-2 border">20&percnt;</div>
+      <div class="col-sm-12 col-md-8 p-2 border">${data.weatherData.current.humidity}&percnt;</div>
     </div>
     <div class="row g-0">
       <div class="col-sm-12 col-md-4 p-2 border bg-light fw-bold">
         Wind Speed
       </div>
-      <div class="col-sm-12 col-md-8 p-2 border">15 MPH</div>
+      <div class="col-sm-12 col-md-8 p-2 border">${data.weatherData.current.wind_speed} MPH</div>
     </div>
     <div class="row g-0">
       <div class="col-sm-12 col-md-4 p-2 border bg-light fw-bold">
         UV Index
       </div>
       <div class="col-sm-12 col-md-8 p-2 border">
-        <span class="bg-success text-white px-3 rounded-2">1.5</span>
+        <span class="bg-success text-white px-3 rounded-2">${data.weatherData.current.uvi}</span>
       </div>
     </div>
   </div>
@@ -109,13 +109,15 @@ const renderForecastData = () => {
     <div class="card m-2" style="width: 16rem">
       <div class="d-flex justify-content-center">
         <img
-          src="http://openweathermap.org/img/w/04d.png"
+          src="http://openweathermap.org/img/w/${each.weather[0].icon}.png"
           class="shadow-sm p-3 mt-3 bg-body rounded border card-img-top weather-icon"
           alt="weather icon"
         />
       </div>
       <div class="card-body">
-        <h5 class="card-title text-center">Tue, 10th May</h5>
+        <h5 class="card-title text-center">${moment
+          .unix(each.dt)
+          .format("ddd, Do MMM")}</h5>
         <div class="mt-4 text-center">
           <div class="row g-0">
             <div class="col-12 p-2 border bg-light fw-bold">
@@ -430,9 +432,9 @@ const handleFormSubmit = async (event) => {
     //fetch data for city name
     const weatherData = await fetchWeatherData(cityName);
     //render current data
-    renderCurrentData(weatherData.current);
+    renderCurrentData(weatherData);
     //render forecast data
-    renderForecastData(weatherData.daily);
+    renderForecastData(weatherData);
     //get recent searches from LS
     const recentSearches = readFromLocalStorage("recentSearches", []);
     //push city name to array
