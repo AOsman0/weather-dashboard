@@ -58,10 +58,13 @@ const renderCurrentData = (data) => {
   const currentWeatherCard = `<div class="p-3">
     <div class="text-center">
       <h2 class="my-city">${data.cityName}</h2>
-      <h3 class="my-date">Friday 27th May 2022</h3>
+      <h3 class="my-date">${moment
+        .unix(data.weatherData.current.dt + data.weatherData.timezone_offset)
+        .format("dddd, Do MMM, YYYY HH:mm:ss")}</h3>
       <img
-        src="./assets/images/weather.icon.png"
-        alt="weather icon"
+      src="http://openweathermap.org/img/w/${
+        data.weatherData.current.weather[0].icon
+      }.png"
         class="shadow-sm p-3 mt-3 bg-body rounded border"
       />
     </div>
@@ -73,26 +76,34 @@ const renderCurrentData = (data) => {
       <div class="col-sm-12 col-md-4 p-2 border bg-light fw-bold">
         Temperature
       </div>
-      <div class="col-sm-12 col-md-8 p-2 border">${data.weatherData.current.temp}&deg; C</div>
+      <div class="col-sm-12 col-md-8 p-2 border">${
+        data.weatherData.current.temp
+      }&deg; C</div>
     </div>
     <div class="row g-0">
       <div class="col-sm-12 col-md-4 p-2 border bg-light fw-bold">
         Humidity
       </div>
-      <div class="col-sm-12 col-md-8 p-2 border">${data.weatherData.current.humidity}&percnt;</div>
+      <div class="col-sm-12 col-md-8 p-2 border">${
+        data.weatherData.current.humidity
+      }&percnt;</div>
     </div>
     <div class="row g-0">
       <div class="col-sm-12 col-md-4 p-2 border bg-light fw-bold">
         Wind Speed
       </div>
-      <div class="col-sm-12 col-md-8 p-2 border">${data.weatherData.current.wind_speed} MPH</div>
+      <div class="col-sm-12 col-md-8 p-2 border">${
+        data.weatherData.current.wind_speed
+      } MPH</div>
     </div>
     <div class="row g-0">
       <div class="col-sm-12 col-md-4 p-2 border bg-light fw-bold">
         UV Index
       </div>
       <div class="col-sm-12 col-md-8 p-2 border">
-        <span class="bg-success text-white px-3 rounded-2">${data.weatherData.current.uvi}</span>
+        <span class="bg-success text-white px-3 rounded-2">${
+          data.weatherData.current.uvi
+        }</span>
       </div>
     </div>
   </div>
@@ -109,15 +120,13 @@ const renderForecastData = () => {
     <div class="card m-2" style="width: 16rem">
       <div class="d-flex justify-content-center">
         <img
-          src="http://openweathermap.org/img/w/${each.weather[0].icon}.png"
+          src="http://openweathermap.org/img/w/04d.png"
           class="shadow-sm p-3 mt-3 bg-body rounded border card-img-top weather-icon"
           alt="weather icon"
         />
       </div>
       <div class="card-body">
-        <h5 class="card-title text-center">${moment
-          .unix(each.dt)
-          .format("ddd, Do MMM")}</h5>
+        <h5 class="card-title text-center">Tue, 10th May</h5>
         <div class="mt-4 text-center">
           <div class="row g-0">
             <div class="col-12 p-2 border bg-light fw-bold">
