@@ -1,0 +1,62 @@
+:root {
+  --charcoal: #264653ff;
+  --persian-green: #2a9d8fff;
+  --maize-crayola: #e9c46aff;
+  --sandy-brown: #f4a261ff;
+  --burnt-sienna: #e76f51ff;
+  --timberwolf: #dad7cdff;
+  --laurel-green: #a3b18aff;
+  --fern-green: #588157ff;
+  --hunter-green: #3a5a40ff;
+  --brunswick-green: #344e41ff;
+}
+
+body {
+  font-family: "Dancing Script", cursive;
+  font-family: "Josefin Sans", sans-serif;
+  font-family: "Lato", sans-serif;
+  font-family: "Poppins", sans-serif;
+  font-family: "Roboto", sans-serif;
+  font-family: "Roboto Condensed", sans-serif;
+  font-family: "Smokum", cursive;
+  font-family: "Source Sans Pro", sans-serif;
+}
+
+.header {
+  font-size: 2rem;
+  text-align: center;
+}
+
+.navbar-light .navbar-nav .nav-link.active,
+.navbar-light .navbar-nav .show > .nav-link {
+  color: var(--timberwolf);
+}
+.navbar-light .navbar-nav .nav-link {
+  color: var(--timberwolf);
+}
+
+.jumbotron {
+  padding: 2rem 1rem;
+  background-color: #e9ecef;
+}
+
+.btn-success {
+  font-size: 1.2rem;
+}
+
+.mt-3 {
+  color: var(--fern-green);
+}
+
+.col-sm-12 {
+  background-color: aliceblue;
+}
+
+.my-city,
+.my-date {
+  color: var(--laurel-green);
+}
+
+.card-body {
+  background-color: rgb(236, 236, 236);
+}
